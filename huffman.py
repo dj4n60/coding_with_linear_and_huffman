@@ -126,8 +126,8 @@ class HuffmanCoding:
 			encoded_text = self.get_encoded_text(text)
 			padded_encoded_text = self.pad_encoded_text(encoded_text)
 			if self.debug == True:
-				print(encoded_text)
-				print(padded_encoded_text)
+				print("encoded_text " + encoded_text)
+				print("padded_encoded_text " + padded_encoded_text)
 
 			b = self.get_byte_array(padded_encoded_text)
 			output.write(bytes(b))
@@ -162,7 +162,7 @@ class HuffmanCoding:
 		return decoded_text
 
 	""" Aποσυμπίεση"""
-	
+
 	def decompress(self, input_path):
 		filename, file_extension = os.path.splitext(self.path)
 		output_path = filename + "_decompressed" + ".txt"
@@ -182,7 +182,31 @@ class HuffmanCoding:
 			decompressed_text = self.decode_text(encoded_text)
 
 			output.write(decompressed_text)
-
 		if self.debug == True:
 			print("Decompressed")
 		return output_path
+
+
+	def decompress_string(self, s):
+		filename, file_extension = os.path.splitext(self.path)
+		output_path = filename + "_decompressed" + ".txt"
+
+		with open(output_path, 'w') as output:
+			bit_string = s
+
+			encoded_text = self.remove_padding(bit_string)
+
+			decompressed_text = self.decode_text(encoded_text)
+
+			output.write(decompressed_text)
+
+		if self.debug == True:
+			print(decompressed_text)
+			print("Decompressed")
+		return output_path
+
+	def get_reverse_mapping(self):
+		return self.reverse_mapping
+
+	def set_reverse_mapping(self,rev_map):
+		self.reverse_mapping = rev_map
